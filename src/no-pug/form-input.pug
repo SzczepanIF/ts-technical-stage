@@ -1,15 +1,27 @@
-div(class='form-input')
+div(class='form-input' data-init='inputText')
   label(class='form-input__label' for=inputFieldName) #{inputField.inputLabel}
+    if inputField.inputRequired
+      span *
+  if inputField.inputType === 'password'
+    div(class='password-checkbox')
+      input(type='checkbox' name='password-checkbox')
+      label(for='password-checkbox') Show password
   input(
     class='form-input__field'
     type=inputField.inputType
     placeholder=inputField.inputPlaceholder
     value=inputField.inputValue
     name=inputField.inputName
+    required=inputField.inputRequired
+    if inputfield.inputPattern
+      pattern=inputField.inputPattern
   )
 
-  div(class='errors form-input__errors' role='alert')
-    <div class="errors__title form-input__errors__title">
-      Error
-    </div>
-    <div class="errors__message form-input__errors__message">Field #{inputField.inputLabel} is invalid.</div>
+  div(class='errors form-input__errors errors__hide' role='alert')
+    div(class='errors__title form-input__errors__title')
+      strong Error:
+    div(class='errors__message errors__hide form-input__errors__message errors__message-required') Input of #{inputField.inputLabel} is required.
+    div(class='errors__message errors__hide form-input__errors__message errors__message-not-equal') Both #{inputField.inputLabel} field values needs to be equal.
+    div(class='errors__message errors__hide form-input__errors__message errors__message-pattern') Input of #{inputField.inputLabel} is invalid.
+        if inputField.patternMessage
+          span #{inputField.patternMessage}

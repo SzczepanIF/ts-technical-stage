@@ -317,6 +317,27 @@ hr {
   margin: 10px 0 30px;
   height: 0; }
 
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+select {
+  border: 1px solid #111; }
+
+.errors {
+  color: #FF4136;
+  border: 1px solid #FF4136;
+  background: #fff;
+  margin: 10px 0;
+  padding: 15px; }
+
+.errors__hide {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0; }
+
 .button,
 button,
 input[type="submit"],
@@ -360,16 +381,31 @@ input[type="button"] {
     outline: 0; }
 
 .form-input {
-  width: 100%; }
+  width: 100%;
+  margin: 5px 0;
+  position: relative; }
   .form-input__field, .form-input__label {
     display: block;
     width: 100%;
     padding: 5px; }
   .form-input__label {
-    font-size: 10px;
+    font-size: 16px;
     font-weight: bold; }
   .form-input__field {
     font-size: 14px; }
+  .form-input .password-checkbox {
+    position: absolute;
+    right: 0;
+    width: 200px;
+    height: 29px;
+    border: 1px solid #111;
+    background: #fff;
+    padding: 5px 10px;
+    font-size: 12px; }
+    .form-input .password-checkbox input[type="checkbox"] {
+      margin-right: 5px; }
+  .form-input input[type="password"] {
+    padding-right: 200px; }
 
 .form-dropdown {
   width: 100%; }

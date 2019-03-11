@@ -1,5 +1,7 @@
-- var inputFields = [{inputName:'forename', inputValue:'', inputPlaceholder:'forename', inputType:'text', inputLabel: 'Forename'}, {inputName:'surname', inputValue:'', inputPlaceholder:'surename', inputType:'text', inputLabel: 'Surname'}, {inputName:'email', inputValue:'', inputPlaceholder:'E-mail', inputType:'mail', inputLabel: 'E-mail'}, {inputName:'verify_email', inputValue:'', inputPlaceholder:'Verify E-mail', inputType:'mail', inputLabel: 'Verify Email'}, {inputName:'password', inputValue:'', inputPlaceholder:'Password', inputType:'password', inputLabel: 'Password'}]
-- var dropdownField = { dropdownName: 'sex', dropdownValue: 'male', dropdownLabel: 'Sex'}
+- var inputFields = [{inputName:'forename', inputValue:'', inputRequired:'true', inputPlaceholder:'forename', inputType:'text', patternMessage: 'Value should have at least 1 and maximum 100 characters.', inputLabel: 'Forename', inputPattern: '^[a-zA-Z.]{1,100}$'}, {inputName:'surname', inputValue:'', inputRequired:'true', inputPlaceholder:'surename', inputPattern: '^[a-zA-Z.]{1,100}$', patternMessage: 'Value should have at least 1 and maximum 100 characters.', inputType:'text', inputLabel: 'Surname'}, {inputName:'email', inputValue:'', inputReqiored: 'true', patternMessage: 'Please provide email address in proper format.', inputPlaceholder:'E-mail', inputType:'email', inputLabel: 'E-mail', inputPattern: '(.+)@(.+){2,}\.(.+){2,}' }, {inputName:'verify_email', inputValue:'', inputRequired: 'true', inputPlaceholder:'Verify E-mail', inputType:'email', inputLabel: 'Verify Email', inputPattern: '(.+)@(.+){2,}\.(.+){2,}'}, {inputName:'password', inputValue:'', patternMessage: 'Please provide email address in proper format.', inputRequired: 'true', inputPlaceholder:'Password', inputType:'password', inputLabel: 'Password', inputPattern: '^[a-zA-Z.]{7,25}$', patternMessage: 'Value should have at least 7 and maximum 25 characters.'}]
+- var dropdownField = { dropdownName: 'sex', dropdownValue: 'male', dropdownLabel: 'Sex', dropdownOptions: [{ name: 'male', label: 'Male'}, { name: 'female', label: 'Female'}]}
+
+- var dateField = {inputName:'dateofbrith', inputValue:'', inputRequired:'true', inputPlaceholder:'Pick a date', inputType:'date', inputLabel: 'Date of birth'}
 
 doctype html
 html
@@ -9,13 +11,16 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(href='assets/img/favicons/favicon.ico', rel='shortcut icon')
     link(href='./assets/css/main.css', rel='stylesheet')
+    <!--[if lt IE 9]>
+      <script src='ie8-polyfill.js'></script>
+    <![endif]-->
   body
     include ../no-pug/header.pug
     include ../no-pug/breadcrumbs.pug
     div(class='title')
       h1 Register
       h2 Create an account and get started today.
-    form(name='register_form' data-module='register_module')
+    form(name='register_form' data-init='register-container' novalidate)
       each inputField in inputFields
         include ../no-pug/form-input.pug
       include ../no-pug/form-dropdown.pug
