@@ -1,11 +1,17 @@
 $c: 'form-input'
 $c-padding: 5px
-$c-label-font-size: 10px
+$c-margin: 5px 0
+$c-label-font-size: 16px
 $c-field-font-size: 14px
+$c-checkbox-wrapper-font-size: 12px
+$c-password-wrapper-width: 200px
+$c-password-wrapper-height: 29px
 
 .#{$c}
   display:block
   width: 100%
+  margin: $c-margin
+  position: relative
 
   &__field,
   &__label
@@ -19,3 +25,19 @@ $c-field-font-size: 14px
 
   &__field
     font-size: $c-field-font-size
+
+  .password-checkbox
+    position: absolute
+    right: 0
+    width: $c-password-wrapper-width
+    height: $c-password-wrapper-height
+    border: 1px solid $black
+    background: $white
+    padding: $c-padding 2*$c-padding
+    font-size: $c-checkbox-wrapper-font-size
+
+    input[type="checkbox"]
+        margin-right: $c-padding
+
+  input[type="password"]
+    padding-right: $c-password-wrapper-width

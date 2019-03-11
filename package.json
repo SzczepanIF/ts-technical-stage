@@ -4,11 +4,13 @@
     "start": "gulp default",
     "build": "gulp build",
     "no-pug": "gulp no-pug",
-    "help": "gulp help"
+    "help": "gulp help",
+    "test": "karma start karma.conf.js"
   },
   "author": "Marcin Szczepanczyk",
   "license": "ISC",
   "devDependencies": {
+    "@types/jasmine": "^2.5.54",
     "browser-sync": "^2.18.13",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
@@ -18,9 +20,13 @@
     "gulp-sass": "^3.1.0",
     "gulp-typescript": "^4.0.0-alpha.1",
     "gulp-uglify": "^3.0.0",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0",
+    "karma-pug-preprocessor": "^1.0.0-beta.2",
+    "karma-typescript": "^3.0.5",
     "typescript": "^2.6.2"
   },
-  "dependencies": {
-    "tui-date-picker": "^3.3.1"
-  }
+  "dependencies": {}
 }

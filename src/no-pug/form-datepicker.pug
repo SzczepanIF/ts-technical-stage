@@ -1,5 +1,16 @@
-<div class="tui-datepicker-input tui-datetime-input tui-has-focus">
-    <input type="text" id="tui-date-picker-target" aria-label="Date-Time">
-    <span class="tui-ico-date"></span>
-</div>
-<div id="tui-date-picker-container" style="margin-top: -1px;"></div>
+div(class='form-input' data-init='inputText')
+  label(class='form-input__label' for=dateFieldName) #{dateField.inputLabel}
+  input(
+    class='form-input__field'
+    type=dateField.inputType
+    placeholder=dateField.inputPlaceholder
+    value=dateField.inputValue
+    name=dateField.inputName
+    required=dateField.inputRequired
+  )
+
+  div(class='errors form-input__errors errors__hide' role='alert')
+    <div class="errors__title form-input__errors__title">
+      Error
+    </div>
+    <div class="errors__message form-input__errors__message">Field #{dateField.inputLabel} is invalid.</div>

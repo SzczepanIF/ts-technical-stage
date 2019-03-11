@@ -5,7 +5,9 @@ div(class='form-dropdown')
     value=dropdownField.dropdownValue
     name=dropdownField.dropdownName
   )
-  div(class='errors form-dropdown__errors' role='alert')
+    each optionItem in dropdownField.dropdownOptions
+      option(name=optionItem.name value=optionItem.value) #{optionItem.label}
+  div(class='errors form-dropdown__errors errors__hide' role='alert')
     <div class="errors__title form-dropdown__errors__title">
       Error
     </div>
