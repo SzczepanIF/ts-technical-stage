@@ -1,0 +1,21 @@
+$c: 'form-input'
+$c-padding: 5px
+$c-label-font-size: 10px
+$c-field-font-size: 14px
+
+.#{$c}
+  display:block
+  width: 100%
+
+  &__field,
+  &__label
+    display: block
+    width: 100%
+    padding: $c-padding
+
+  &__label
+    font-size: $c-label-font-size
+    @include fontWeightBold()
+
+  &__field
+    font-size: $c-field-font-size

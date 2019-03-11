@@ -1,0 +1,15 @@
+div(class='form-input')
+  label(class='form-input__label' for=inputFieldName) #{inputField.inputLabel}
+  input(
+    class='form-input__field'
+    type=inputField.inputType
+    placeholder=inputField.inputPlaceholder
+    value=inputField.inputValue
+    name=inputField.inputName
+  )
+
+  div(class='errors form-input__errors' role='alert')
+    <div class="errors__title form-input__errors__title">
+      Error
+    </div>
+    <div class="errors__message form-input__errors__message">Field #{inputField.inputLabel} is invalid.</div>
