@@ -14,6 +14,11 @@
         "types": [
           "jasmine"
         ],
+        "lib": [
+            "es6",
+            "dom",
+            "dom.iterable"
+        ],
         "typeRoots": [
           "../node_modules/@types"
         ]
