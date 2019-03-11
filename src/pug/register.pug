@@ -1,0 +1,25 @@
+- var inputFields = [{inputName:'forename', inputValue:'', inputPlaceholder:'forename', inputType:'text', inputLabel: 'Forename'}, {inputName:'surname', inputValue:'', inputPlaceholder:'surename', inputType:'text', inputLabel: 'Surname'}, {inputName:'email', inputValue:'', inputPlaceholder:'E-mail', inputType:'mail', inputLabel: 'E-mail'}, {inputName:'verify_email', inputValue:'', inputPlaceholder:'Verify E-mail', inputType:'mail', inputLabel: 'Verify Email'}, {inputName:'password', inputValue:'', inputPlaceholder:'Password', inputType:'password', inputLabel: 'Password'}]
+- var dropdownField = { dropdownName: 'sex', dropdownValue: 'male', dropdownLabel: 'Sex'}
+
+doctype html
+html
+  head
+    title Register Page
+    meta(charset='utf-8')
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(href='assets/img/favicons/favicon.ico', rel='shortcut icon')
+    link(href='./assets/css/main.css', rel='stylesheet')
+  body
+    include ../no-pug/header.pug
+    include ../no-pug/breadcrumbs.pug
+    div(class='title')
+      h1 Register
+      h2 Create an account and get started today.
+    form(name='register_form' data-module='register_module')
+      each inputField in inputFields
+        include ../no-pug/form-input.pug
+      include ../no-pug/form-dropdown.pug
+      include ../no-pug/form-datepicker.pug
+      button(type='submit' class='right') Register
+      <script> var exports = {}; </script>
+    script(src='./assets/js/main.js', type='text/javascript')

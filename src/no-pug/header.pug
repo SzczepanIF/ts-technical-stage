@@ -1,0 +1,13 @@
+- var links = ['Buy', 'Sell', 'About', 'Blog']
+- var registerLoginLinks = ['Sign-up', 'login']
+
+<header class="header">
+  <nav>
+    <ul class="header__list">
+      each link in links
+        <li class="header__list-item"><a href="#" title="link">#{link}</a></li>
+      each registerLoginLink in registerLoginLinks
+        <li class="header__list-item header__list-item--login"><a href="#" title="registerLoginLink">#{registerLoginLink}</a></li>
+    </ul>
+  </nav>
+</header>

@@ -1,0 +1,14 @@
+div(class='form-dropdown')
+  label(class='form-dropdown__label' for=dropdownField.dropdownName) #{dropdownField.dropdownLabel}
+  select(
+    class='form-dropdown__field'
+    value=dropdownField.dropdownValue
+    name=dropdownField.dropdownName
+  )
+  div(class='errors form-dropdown__errors' role='alert')
+    <div class="errors__title form-dropdown__errors__title">
+      Error
+    </div>
+    <div class="errors__message form-dropdown__errors__message">
+      Field #{dropdownField.dropdownLabel} is invalid.
+    </div>
