@@ -1,5 +1,5 @@
 class RegisterContainer {
-  private name: string = 'register-container'
+  private name: string = 'register-container';
   private domSelectors;
   private inputTextElements: NodeListOf<Element>;
   private dropdownElements: NodeListOf<Element>;
@@ -10,116 +10,116 @@ class RegisterContainer {
 
  constructor() {
    this.domSelectors = {
-     moduleName: '[data-init="'+ this.name + '"]',
+     moduleName: '[data-init="' + this.name + '"]',
      inputText: '[data-init="inputText"]',
      dropdownField: '[data-init="dropdownField"]'
-   }
+   };
    this.initUI();
    this.addEventListeners();
  }
 
- initUI():void {
+ private initUI(): void {
    this.moduleWrapper = document.querySelector(this.domSelectors.moduleName);
    this.inputTextElements = document.querySelectorAll(this.domSelectors.inputText + ' input');
    this.dropdownElements = document.querySelectorAll(this.domSelectors.dropdownField);
    this.submitButton = document.querySelector('button[type="submit"]');
  }
 
- addEventListeners():void {
-   this.moduleWrapper.addEventListener('submit', (event:Event) => {this.validateFormSubmit(event)});
+ private addEventListeners(): void {
+   this.moduleWrapper.addEventListener('submit', ( event: Event ) => { this.validateFormSubmit( event ); });
    this.attachInputElementHandler();
  }
 
- attachInputElementHandler():void {
-   this.inputTextElements.forEach((inputText:any) => {
-     inputText.addEventListener('change', (event: Event) => {this.validateField(event)});
+ private attachInputElementHandler(): void {
+   this.inputTextElements.forEach((inputText: HTMLInputElement) => {
+     inputText.addEventListener('change', ( event: Event ) => { this.validateField( event ); });
 
      if (inputText.getAttribute('type') === 'password') {
        inputText.previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', (event: Event) => {
-         let checkboxElement:HTMLInputElement = <HTMLInputElement> event.currentTarget;
+         const checkboxElement: HTMLInputElement = <HTMLInputElement> event.currentTarget;
          inputText.setAttribute('type', checkboxElement.checked ? 'text' : 'password');
        });
      }
    });
  }
 
- validateField(event:Event): void {
+ private validateField(event: Event): void {
    let isFieldValid = true;
-   let element:HTMLInputElement = <HTMLInputElement> event.currentTarget;
+   const element: HTMLInputElement = <HTMLInputElement> event.currentTarget;
    this.isFormPristine = false;
 
    isFieldValid = !this.isFieldEmpty(element);
 
 
    if (element.getAttribute('pattern')) {
-     let isPatternValid = this.checkFieldPattern(element);
+     const isPatternValid = this.checkFieldPattern(element);
 
-     isFieldValid = isPatternValid ? isFieldValid: false;
+     isFieldValid = isPatternValid ? isFieldValid : false;
    }
 
    if (element.getAttribute('type') === 'email') {
-     let isEmailEqual =  this.checkEqualityOfEmails(element) && isFieldValid;
+     const isEmailEqual =  this.checkEqualityOfEmails(element) && isFieldValid;
 
-     isFieldValid = isEmailEqual ? isFieldValid: false;
+     isFieldValid = isEmailEqual ? isFieldValid : false;
    }
 
    if (isFieldValid) {
      this.submitButton.removeAttribute('disabled');
    }
 
-   isFieldValid ? element.nextElementSibling.classList.add('errors__hide') : element.nextElementSibling.classList.remove('errors__hide')
+   isFieldValid ? element.nextElementSibling.classList.add('errors__hide') : element.nextElementSibling.classList.remove('errors__hide');
  }
 
- showErrorMessage(type: string, element:any) {
-   let errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
-   if (element.nextElementSibling && errorMessage){
+ private showErrorMessage(type: string, element: HTMLElement): void {
+   const errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
+   if (element.nextElementSibling && errorMessage) {
     element.nextElementSibling.classList.remove('errors__hide');
-    errorMessage.classList.remove('errors__hide')
+    errorMessage.classList.remove('errors__hide');
    }
 
    this.submitButton.setAttribute('disabled', 'disabled');
  }
 
- hideErrorMessage(type:string, element: any) {
-   let errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
+ private hideErrorMessage(type: string, element: HTMLElement): void {
+   const errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
 
    if (element.nextElementSibling && errorMessage) {
-     errorMessage.classList.add('errors__hide')
+     errorMessage.classList.add('errors__hide');
    }
   }
 
- checkFieldPattern(element:any): boolean {
-   let pattern = new RegExp(element.getAttribute('pattern'));
-   let isRegExpValid = pattern.test(element.value);
+ private checkFieldPattern(element: HTMLInputElement): boolean {
+   const pattern = new RegExp(element.getAttribute('pattern'));
+   const isRegExpValid = pattern.test(element.value);
 
    isRegExpValid ? this.hideErrorMessage('pattern', element) : this.showErrorMessage('pattern', element);
    return isRegExpValid;
  }
 
- checkEqualityOfEmails(element:any) {
-   let baseValue = element.value;
-   let emailFields:NodeListOf<Element> = this.moduleWrapper.querySelectorAll('input[type="email"]');
+ private checkEqualityOfEmails(element: HTMLInputElement) {
+   const baseValue = element.value;
+   const emailFields: NodeListOf<Element> = this.moduleWrapper.querySelectorAll('input[type="email"]');
    let isEmailEqual = true;
 
-   emailFields.forEach((inputPassword:any) => {
+   emailFields.forEach((inputPassword: HTMLInputElement) => {
      if (inputPassword.value !== baseValue) {
        isEmailEqual = false;
      }
    });
 
-  isEmailEqual ? this.hideErrorMessage('not-equal', element): this.showErrorMessage('not-equal', element);
+  isEmailEqual ? this.hideErrorMessage('not-equal', element) : this.showErrorMessage('not-equal', element);
 
   return isEmailEqual;
  }
 
- isFieldEmpty(field:any): boolean {
-   let isEmpty = field.getAttribute('required') && field.value.length === 0;
+ private isFieldEmpty(field: HTMLInputElement): boolean {
+   const isEmpty = field.getAttribute('required') && field.value.length === 0;
 
-   isEmpty ? this.showErrorMessage('required', field): this.hideErrorMessage('required', field);
+   isEmpty ? this.showErrorMessage('required', field) : this.hideErrorMessage('required', field);
    return isEmpty;
  }
 
- validateFormSubmit(event: Event): void {
+ private validateFormSubmit(event: Event): void {
    event.preventDefault();
    this.isFormValid = this.isFormHavingErrors();
 
@@ -128,12 +128,11 @@ class RegisterContainer {
     }
  }
 
- formSubmit() {
+ private formSubmit(): void {
    this.moduleWrapper.submit();
  }
 
-
- isFormHavingErrors(): boolean {
+ private isFormHavingErrors(): boolean {
    return this.moduleWrapper.querySelectorAll('.errors:not(.error-hide)').length === 0;
  }
 }
