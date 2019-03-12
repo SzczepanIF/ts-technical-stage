@@ -11,9 +11,17 @@ html(lang='en')
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(href='assets/img/favicons/favicon.ico', rel='shortcut icon')
     link(href='./assets/css/main.css', rel='stylesheet')
-    <!--[if lt IE 9]>
-      <script src='ie8-polyfill.js'></script>
-    <![endif]-->
+    <script src="https://raw.githack.com/zloirock/core-js/v2.0.3/client/core.min.js"></script>
+    <!--[if IE 8]><script src="//cdnjs.cloudflare.com/ajax/libs/ie8/0.8.0/ie8.js"></script><![endif]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-sham.min.js"></script>
+    <script src="https://wzrd.in/standalone/es7-shim@latest"></script>
+    <script src="https://raw.githubusercontent.com/yola/classlist-polyfill/master/src/index.js"></script>
+    <script src="https://raw.githubusercontent.com/jcgertig/date-input-polyfill/master/date-input-polyfill.dist.js"></script>
+
   body
     include ../no-pug/header.pug
     include ../no-pug/breadcrumbs.pug

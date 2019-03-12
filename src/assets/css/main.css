@@ -331,6 +331,7 @@ select {
   margin: 10px 0;
   padding: 15px; }
 
+.tooltip__hide,
 .errors__hide {
   visibility: hidden;
   height: 0;
@@ -379,6 +380,29 @@ input[type="button"] {
     border-color: #111;
     background-color: #fff;
     outline: 0; }
+  .button[disabled],
+  button[disabled],
+  input[type="submit"][disabled],
+  input[type="reset"][disabled],
+  input[type="button"][disabled] {
+    opacity: 0.5; }
+    .button[disabled]:hover, .button[disabled]:active, .button[disabled]:focus,
+    button[disabled]:hover,
+    button[disabled]:active,
+    button[disabled]:focus,
+    input[type="submit"][disabled]:hover,
+    input[type="submit"][disabled]:active,
+    input[type="submit"][disabled]:focus,
+    input[type="reset"][disabled]:hover,
+    input[type="reset"][disabled]:active,
+    input[type="reset"][disabled]:focus,
+    input[type="button"][disabled]:hover,
+    input[type="button"][disabled]:active,
+    input[type="button"][disabled]:focus {
+      border: 1px solid #bbb;
+      background-color: #111;
+      color: white;
+      cursor: not-allowed; }
 
 .form-input {
   width: 100%;
@@ -393,6 +417,16 @@ input[type="button"] {
     font-weight: bold; }
   .form-input__field {
     font-size: 14px; }
+  .form-input__tooltip {
+    position: absolute;
+    top: 0;
+    min-width: 200px;
+    right: 0;
+    z-index: 4;
+    background: #fff;
+    font-size: 14px;
+    padding: 5px;
+    border: 1px solid #111; }
   .form-input .password-checkbox {
     position: absolute;
     right: 0;
@@ -401,7 +435,8 @@ input[type="button"] {
     border: 1px solid #111;
     background: #fff;
     padding: 5px 10px;
-    font-size: 12px; }
+    font-size: 12px;
+    z-index: 5; }
     .form-input .password-checkbox input[type="checkbox"] {
       margin-right: 5px; }
   .form-input input[type="password"] {
@@ -414,7 +449,7 @@ input[type="button"] {
     width: 100%;
     padding: 5px; }
   .form-dropdown__label {
-    font-size: 10px;
+    font-size: 16px;
     font-weight: bold; }
   .form-dropdown__field {
     font-size: 14px; }

@@ -6,6 +6,7 @@ $c-field-font-size: 14px
 $c-checkbox-wrapper-font-size: 12px
 $c-password-wrapper-width: 200px
 $c-password-wrapper-height: 29px
+$c-tooltip-width: 150px
 
 .#{$c}
   display:block
@@ -26,6 +27,18 @@ $c-password-wrapper-height: 29px
   &__field
     font-size: $c-field-font-size
 
+  &__tooltip
+    position: absolute
+    top: 0
+    min-width: $c-password-wrapper-width
+    right: 0
+    z-index: 4
+    background: $white
+    font-size: $c-field-font-size
+    padding: $c-padding
+    border: 1px solid $black
+
+
   .password-checkbox
     position: absolute
     right: 0
@@ -35,6 +48,7 @@ $c-password-wrapper-height: 29px
     background: $white
     padding: $c-padding 2*$c-padding
     font-size: $c-checkbox-wrapper-font-size
+    z-index: 5
 
     input[type="checkbox"]
         margin-right: $c-padding

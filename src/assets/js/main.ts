@@ -1,3 +1,6 @@
+
+
+
 class RegisterContainer {
   private name: string = 'register-container';
   private domSelectors;
@@ -8,6 +11,7 @@ class RegisterContainer {
   moduleWrapper: HTMLFormElement;
   private isFormValid: boolean = false;
   private isFormPristine: boolean = true;
+  private isIE8: boolean = false;
 
  constructor() {
    this.domSelectors = {
@@ -17,16 +21,19 @@ class RegisterContainer {
    };
    this.domClasses = {
      hideError: 'errors__hide',
+     hideTooltip: 'tooltip__hide',
      errorMessage: 'errors__message',
-     errorsWrapper: 'errors'
+     errorsWrapper: 'errors',
+     tooltip: 'form-input__tooltip'
    };
+   this.isIE8 = navigator.appVersion.indexOf('MSIE 8') > 0;
    this.initUI();
    this.addEventListeners();
  }
 
  private initUI(): void {
    this.moduleWrapper = document.querySelector(this.domSelectors.moduleName);
-   this.inputTextElements = document.querySelectorAll(this.domSelectors.inputText + ' input');
+   this.inputTextElements = document.querySelectorAll(this.domSelectors.inputText + ' .form-input__field');
    this.dropdownElements = document.querySelectorAll(this.domSelectors.dropdownField);
    this.submitButton = document.querySelector('button[type="submit"]');
  }
@@ -37,17 +44,29 @@ class RegisterContainer {
  }
 
  private attachInputElementHandler(): void {
-   this.inputTextElements.forEach((inputText: HTMLInputElement) => {
-     inputText.addEventListener('keyUp', ( event: Event ) => { this.validateField( event ); });
-     inputText.addEventListener('change', ( event: Event ) => { this.validateField( event ); });
+   for (let i = 0; i < this.inputTextElements.length; i++) {
+     this.inputTextElements[i].addEventListener('keyup', ( event: Event ) => { this.validateField( event ); });
+     this.inputTextElements[i].addEventListener('change', ( event: Event ) => { this.validateField( event ); });
 
-     if (inputText.getAttribute('type') === 'password') {
-       inputText.previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', (event: Event) => {
+     if (this.inputTextElements[i].getAttribute('type') === 'password') {
+       this.inputTextElements[i].previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', (event: Event) => {
          const checkboxElement: HTMLInputElement = <HTMLInputElement> event.currentTarget;
-         inputText.setAttribute('type', checkboxElement.checked ? 'text' : 'password');
+         if (!this.isIE8) {
+           this.inputTextElements[i].setAttribute('type', checkboxElement.checked ? 'text' : 'password');
+         } else {
+           this.showPasswordInIE8(this.inputTextElements[i]);
+         }
        });
      }
-   });
+   }
+ }
+
+ private showPasswordInIE8(inputPassword) {
+   const tooltipElement = inputPassword.parentNode.querySelector('.' + this.domClasses.tooltip);
+
+   tooltipElement.classList.contains(this.domClasses.hideTooltip) ?
+    tooltipElement.classList.remove(this.domClasses.hideTooltip) :
+    tooltipElement.classList.add(this.domClasses.hideTooltip);
  }
 
  private validateField(event: Event): void {
@@ -62,6 +81,11 @@ class RegisterContainer {
      const isPatternValid = this.checkFieldPattern(element);
 
      isFieldValid = isPatternValid ? isFieldValid : false;
+   }
+
+   if (element.getAttribute('type') === 'password') {
+     const inputPasswordWrapper: HTMLElement = <HTMLElement>element.parentNode;
+     inputPasswordWrapper.querySelector('.' + this.domClasses.tooltip).innerHTML = '<strong>Current password</strong>: ' + element.value;
    }
 
    if (element.getAttribute('type') === 'email') {
