@@ -106,7 +106,6 @@ describe('RegisterContainer Component', () => {
     inputElement.value = 'ss';
 
     inputElement.dispatchEvent(new Event('change'));
-    debugger;
     expect(document.querySelector('button[type="submit"]').hasAttribute('disabled')).toEqual(true);
   });
 
