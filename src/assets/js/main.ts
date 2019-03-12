@@ -3,6 +3,7 @@ class RegisterContainer {
   private domSelectors;
   private inputTextElements: NodeListOf<Element>;
   private dropdownElements: NodeListOf<Element>;
+  private submitButton: HTMLElement;
   moduleWrapper: HTMLFormElement;
   private isFormValid: boolean = false;
   private isFormPristine: boolean = true;
@@ -21,10 +22,11 @@ class RegisterContainer {
    this.moduleWrapper = document.querySelector(this.domSelectors.moduleName);
    this.inputTextElements = document.querySelectorAll(this.domSelectors.inputText + ' input');
    this.dropdownElements = document.querySelectorAll(this.domSelectors.dropdownField);
+   this.submitButton = document.querySelector('button[type="submit"]');
  }
 
  addEventListeners():void {
-   this.moduleWrapper.addEventListener('submit', (event:Event) => {this.formSubmit(event)});
+   this.moduleWrapper.addEventListener('submit', (event:Event) => {this.validateFormSubmit(event)});
    this.attachInputElementHandler();
  }
 
@@ -61,17 +63,30 @@ class RegisterContainer {
      isFieldValid = isEmailEqual ? isFieldValid: false;
    }
 
+   if (isFieldValid) {
+     this.submitButton.removeAttribute('disabled');
+   }
+
    isFieldValid ? element.nextElementSibling.classList.add('errors__hide') : element.nextElementSibling.classList.remove('errors__hide')
  }
 
  showErrorMessage(type: string, element:any) {
-   element.nextElementSibling.classList.remove('errors__hide');
-   element.nextElementSibling.querySelector('.errors__message-' + type).classList.remove('errors__hide')
+   let errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
+   if (element.nextElementSibling && errorMessage){
+    element.nextElementSibling.classList.remove('errors__hide');
+    errorMessage.classList.remove('errors__hide')
+   }
+
+   this.submitButton.setAttribute('disabled', 'disabled');
  }
 
  hideErrorMessage(type:string, element: any) {
-   element.nextElementSibling.querySelector('.errors__message-' + type).classList.add('errors__hide')
- }
+   let errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
+
+   if (element.nextElementSibling && errorMessage) {
+     errorMessage.classList.add('errors__hide')
+   }
+  }
 
  checkFieldPattern(element:any): boolean {
    let pattern = new RegExp(element.getAttribute('pattern'));
@@ -104,14 +119,20 @@ class RegisterContainer {
    return isEmpty;
  }
 
- formSubmit(event: Event): void {
+ validateFormSubmit(event: Event): void {
    event.preventDefault();
    this.isFormValid = this.isFormHavingErrors();
 
     if (this.isFormValid) {
-      this.moduleWrapper.submit();
+      this.formSubmit();
     }
  }
+
+ formSubmit() {
+   this.moduleWrapper.submit();
+ }
+
+
  isFormHavingErrors(): boolean {
    return this.moduleWrapper.querySelectorAll('.errors:not(.error-hide)').length === 0;
  }
