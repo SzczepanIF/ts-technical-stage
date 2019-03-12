@@ -1,10 +1,10 @@
-- var inputFields = [{inputName:'forename', inputValue:'', inputRequired:'true', inputPlaceholder:'forename', inputType:'text', patternMessage: 'Value should have at least 1 and maximum 100 characters.', inputLabel: 'Forename', inputPattern: '^[a-zA-Z.]{1,100}$'}, {inputName:'surname', inputValue:'', inputRequired:'true', inputPlaceholder:'surename', inputPattern: '^[a-zA-Z.]{1,100}$', patternMessage: 'Value should have at least 1 and maximum 100 characters.', inputType:'text', inputLabel: 'Surname'}, {inputName:'email', inputValue:'', inputReqiored: 'true', patternMessage: 'Please provide email address in proper format.', inputPlaceholder:'E-mail', inputType:'email', inputLabel: 'E-mail', inputPattern: '(.+)@(.+){2,}\.(.+){2,}' }, {inputName:'verify_email', patternMessage: 'Please provide email address in proper format.', inputValue:'', inputRequired: 'true', inputPlaceholder:'Verify E-mail', inputType:'email', inputLabel: 'Verify Email', inputPattern: '(.+)@(.+){2,}\.(.+){2,}'}, {inputName:'password', inputValue:'', inputRequired: 'true', inputPlaceholder:'Password', inputType:'password', inputLabel: 'Password', inputPattern: '^[a-zA-Z.]{7,25}$', patternMessage: 'Value should have at least 7 and maximum 25 characters.'}]
+- var inputFields = [{inputName:'forename', inputValue:'', inputRequired:'true', inputPlaceholder:'forename', inputType:'text', patternMessage: 'Value should have at least 1 and maximum 100 characters.', inputLabel: 'Forename', inputPattern: '^[a-zA-Z.]{1,100}$'}, {inputName:'surname', inputValue:'', inputRequired:'true', inputPlaceholder:'surename', inputPattern: '^[a-zA-Z.]{1,100}$', patternMessage: 'Value should have at least 1 and maximum 100 characters.', inputType:'text', inputLabel: 'Surname'}, {inputName:'email', inputValue:'', inputRequired: 'true', patternMessage: 'Please provide email address in proper format.', inputPlaceholder:'E-mail', inputType:'email', inputLabel: 'E-mail', inputPattern: '(.+)@(.+){2,}\.(.+){2,}' }, {inputName:'verify_email', patternMessage: 'Please provide email address in proper format.', inputValue:'', inputRequired: 'true', inputPlaceholder:'Verify E-mail', inputType:'email', inputLabel: 'Verify Email', inputPattern: '(.+)@(.+){2,}\.(.+){2,}'}, {inputName:'password', inputValue:'', inputRequired: 'true', inputPlaceholder:'Password', inputType:'password', inputLabel: 'Password', inputPattern: '^[a-zA-Z.]{7,25}$', patternMessage: 'Value should have at least 7 and maximum 25 characters.'}]
 - var dropdownField = { dropdownName: 'sex', dropdownValue: 'male', dropdownLabel: 'Sex', dropdownOptions: [{ name: 'male', label: 'Male'}, { name: 'female', label: 'Female'}]}
 
 - var dateField = {inputName:'dateofbirth', inputValue:'', inputRequired:'true', inputPlaceholder:'Pick a date', inputType:'date', inputLabel: 'Date of birth'}
 
 doctype html
-html
+html(lang='en')
   head
     title Register Page
     meta(charset='utf-8')
@@ -27,5 +27,5 @@ html
       include ../no-pug/form-datepicker.pug
       button(type='submit' class='right' disabled="disabled") Register
       <script> var exports = {}; </script>
-    script(src='./assets/js/main.js', type='text/javascript')
+    script(src='./assets/js/main.js')
     <script>new RegisterContainer();</script>

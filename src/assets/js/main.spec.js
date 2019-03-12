@@ -53,15 +53,12 @@ describe('RegisterContainer Component', function () {
         expect(forenameInput.nextElementSibling.classList).not.toContain('errors__hide');
     });
     it('should not submit form if there are form errors', function () {
-        var submitSpy = spyOn(component.moduleWrapper, 'submit');
         var inputElement = document.querySelector('[name="verify_email"]');
         inputElement.value = 'ss';
         inputElement.dispatchEvent(new Event('change'));
-        document.querySelector('button[type="submit"]').dispatchEvent(new Event('click'));
-        expect(submitSpy).not.toHaveBeenCalled();
+        expect(document.querySelector('button[type="submit"]').hasAttribute('disabled')).toEqual(true);
     });
     it('should submit form if there are no errors', function () {
-        var submitSpy = spyOn(component.moduleWrapper, 'submit');
         var forenameElement = document.querySelector('[name="forename"]');
         forenameElement.value = 'sampleName';
         forenameElement.dispatchEvent(new Event('change'));
@@ -79,10 +76,9 @@ describe('RegisterContainer Component', function () {
         passwordElement.dispatchEvent(new Event('change'));
         var dropdownElement = document.querySelector('[name="sex"]');
         dropdownElement.dispatchEvent(new Event('change'));
-        var dateElement = document.querySelector('[name="dateofbirth"]');
+        var dateElement = document.querySelector('input[type="date"]');
         dateElement.value = '1985-05-23';
         dateElement.dispatchEvent(new Event('change'));
-        debugger;
-        expect(submitSpy).toHaveBeenCalled();
+        expect(document.querySelector('button[type="submit"]').hasAttribute('disabled')).toEqual(false);
     });
 });

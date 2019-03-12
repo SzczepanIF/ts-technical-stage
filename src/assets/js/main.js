@@ -15,10 +15,11 @@ var RegisterContainer = (function () {
         this.moduleWrapper = document.querySelector(this.domSelectors.moduleName);
         this.inputTextElements = document.querySelectorAll(this.domSelectors.inputText + ' input');
         this.dropdownElements = document.querySelectorAll(this.domSelectors.dropdownField);
+        this.submitButton = document.querySelector('button[type="submit"]');
     };
     RegisterContainer.prototype.addEventListeners = function () {
         var _this = this;
-        this.moduleWrapper.addEventListener('submit', function (event) { _this.formSubmit(event); });
+        this.moduleWrapper.addEventListener('submit', function (event) { _this.validateFormSubmit(event); });
         this.attachInputElementHandler();
     };
     RegisterContainer.prototype.attachInputElementHandler = function () {
@@ -46,14 +47,24 @@ var RegisterContainer = (function () {
             var isEmailEqual = this.checkEqualityOfEmails(element) && isFieldValid;
             isFieldValid = isEmailEqual ? isFieldValid : false;
         }
+        if (isFieldValid) {
+            this.submitButton.removeAttribute('disabled');
+        }
         isFieldValid ? element.nextElementSibling.classList.add('errors__hide') : element.nextElementSibling.classList.remove('errors__hide');
     };
     RegisterContainer.prototype.showErrorMessage = function (type, element) {
-        element.nextElementSibling.classList.remove('errors__hide');
-        element.nextElementSibling.querySelector('.errors__message-' + type).classList.remove('errors__hide');
+        var errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
+        if (element.nextElementSibling && errorMessage) {
+            element.nextElementSibling.classList.remove('errors__hide');
+            errorMessage.classList.remove('errors__hide');
+        }
+        this.submitButton.setAttribute('disabled', 'disabled');
     };
     RegisterContainer.prototype.hideErrorMessage = function (type, element) {
-        element.nextElementSibling.querySelector('.errors__message-' + type).classList.add('errors__hide');
+        var errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
+        if (element.nextElementSibling && errorMessage) {
+            errorMessage.classList.add('errors__hide');
+        }
     };
     RegisterContainer.prototype.checkFieldPattern = function (element) {
         var pattern = new RegExp(element.getAttribute('pattern'));
@@ -78,12 +89,15 @@ var RegisterContainer = (function () {
         isEmpty ? this.showErrorMessage('required', field) : this.hideErrorMessage('required', field);
         return isEmpty;
     };
-    RegisterContainer.prototype.formSubmit = function (event) {
+    RegisterContainer.prototype.validateFormSubmit = function (event) {
         event.preventDefault();
         this.isFormValid = this.isFormHavingErrors();
         if (this.isFormValid) {
-            this.moduleWrapper.submit();
+            this.formSubmit();
         }
+    };
+    RegisterContainer.prototype.formSubmit = function () {
+        this.moduleWrapper.submit();
     };
     RegisterContainer.prototype.isFormHavingErrors = function () {
         return this.moduleWrapper.querySelectorAll('.errors:not(.error-hide)').length === 0;

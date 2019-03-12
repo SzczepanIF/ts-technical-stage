@@ -2,13 +2,11 @@ div(class='form-dropdown')
   label(class='form-dropdown__label' for=dropdownField.dropdownName) #{dropdownField.dropdownLabel}
   select(
     class='form-dropdown__field'
-    value=dropdownField.dropdownValue
     name=dropdownField.dropdownName
+    id=dropdownField.dropdownName
   )
     each optionItem in dropdownField.dropdownOptions
-      option(name=optionItem.name value=optionItem.value) #{optionItem.label}
-  div(class='errors form-dropdown__errors errors__hide' role='alert')
-    <div class="errors__title form-dropdown__errors__title">
-      Error
-    </div>
-    <div class="errors__message form-dropdown__errors__message">Field #{dropdownField.dropdownLabel} is invalid.</div>
+      if index === 0
+        option(id=optionItem.name value=optionItem.value selected) #{optionItem.label}
+      else
+        option(id=optionItem.name value=optionItem.value) #{optionItem.label}

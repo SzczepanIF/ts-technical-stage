@@ -1,10 +1,10 @@
 div(class='form-input' data-init='inputText')
-  label(class='form-input__label' for=inputFieldName) #{inputField.inputLabel}
+  label(class='form-input__label' for=inputField.inputName) #{inputField.inputLabel}
     if inputField.inputRequired
       span *
   if inputField.inputType === 'password'
     div(class='password-checkbox')
-      input(type='checkbox' name='password-checkbox')
+      input(type='checkbox' name='password-checkbox' id='password-checkbox')
       label(for='password-checkbox') Show password
   input(
     class='form-input__field'
@@ -12,9 +12,9 @@ div(class='form-input' data-init='inputText')
     placeholder=inputField.inputPlaceholder
     value=inputField.inputValue
     name=inputField.inputName
-    required=inputField.inputRequired
-    if inputfield.inputPattern
-      pattern=inputField.inputPattern
+    id=inputField.inputName
+    required
+    pattern=inputField.inputPattern
   )
 
   div(class='errors form-input__errors errors__hide' role='alert')
