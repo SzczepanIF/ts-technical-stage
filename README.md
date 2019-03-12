@@ -20,32 +20,36 @@ $ npm install
 $ npm install -g gulp
 ```
 
-```sh
-$ npm run start
-```
 to start the server
 
 ```sh
-$ npm run test
+$ npm run start
 ```
+
 to start karma runner and search for specs
 
 ```sh
-$ npm run build
+$ npm run test
 ```
 
 creates new build in 'dist' folder
 
 ```sh
+$ npm run build
+```
+
+to start typescript file linter
+
+```sh
 $ npm run lint
 ```
-to start typescript file linter
+
+no-pug compilation
 
 ```sh
 $ npm run no-pug
 ```
 
-to compile only partials (from PUG templates perspective)
 
 
 ## Usage
