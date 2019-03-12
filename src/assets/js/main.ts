@@ -38,7 +38,8 @@ class RegisterContainer {
 
  private attachInputElementHandler(): void {
    this.inputTextElements.forEach((inputText: HTMLInputElement) => {
-     inputText.addEventListener('keyup change', ( event: Event ) => { this.validateField( event ); });
+     inputText.addEventListener('keyUp', ( event: Event ) => { this.validateField( event ); });
+     inputText.addEventListener('change', ( event: Event ) => { this.validateField( event ); });
 
      if (inputText.getAttribute('type') === 'password') {
        inputText.previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', (event: Event) => {
