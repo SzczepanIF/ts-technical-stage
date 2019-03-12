@@ -3,17 +3,17 @@ div(class='form-input' data-init='inputText')
   input(
     class='form-input__field'
     type=dateField.inputType
-    placeholder=dateField.inputPlaceholder
     value=dateField.inputValue
     name=dateField.inputName
-    required=dateField.inputRequired
+    id=dateField.inputName
+    required
   )
 
   div(class='errors form-input__errors errors__hide' role='alert')
     div(class='errors__title form-input__errors__title')
       strong Error:
-    div(class='errors__message errors__hide form-input__errors__message errors__message-required') Input of #{inputField.inputLabel} is required.
-    div(class='errors__message errors__hide form-input__errors__message errors__message-not-equal') Both #{inputField.inputLabel} field values needs to be equal.
-    div(class='errors__message errors__hide form-input__errors__message errors__message-pattern') Input of #{inputField.inputLabel} is invalid.
-        if inputField.patternMessage
-          span #{inputField.patternMessage}
+    div(class='errors__message errors__hide form-input__errors__message errors__message-required') Input of #{dateField.inputLabel} is required.
+    div(class='errors__message errors__hide form-input__errors__message errors__message-not-equal') Both #{dateField.inputLabel} field values needs to be equal.
+    div(class='errors__message errors__hide form-input__errors__message errors__message-pattern') Input of #{dateField.inputLabel} is invalid.
+        if dateField.patternMessage
+          span #{dateField.patternMessage}
