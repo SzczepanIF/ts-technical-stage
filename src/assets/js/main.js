@@ -95,13 +95,13 @@ var RegisterContainer = (function () {
             errorMessage.classList.add(this.domClasses.hideError);
         }
         if (type === 'not-equal') {
-            this.validateMailFields(type);
+            this.validateMailFields(type, element);
         }
     };
-    RegisterContainer.prototype.validateMailFields = function (type) {
+    RegisterContainer.prototype.validateMailFields = function (type, element) {
         var errorMessageMailInputs = this.moduleWrapper.querySelectorAll(' input[type="email"]');
         for (var i = 0; i < errorMessageMailInputs.length; i++) {
-            if (errorMessageMailInputs[i].nextElementSibling.classList.contains(this.domClasses.hideError)) {
+            if (errorMessageMailInputs[i].nextElementSibling.classList.contains(this.domClasses.hideError) && errorMessageMailInputs[i] !== element) {
                 errorMessageMailInputs[i].dispatchEvent(new Event('change'));
             }
         }

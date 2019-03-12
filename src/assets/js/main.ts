@@ -119,15 +119,15 @@ class RegisterContainer {
    }
 
    if (type === 'not-equal') {
-     this.validateMailFields(type);
+     this.validateMailFields(type, element);
    }
  }
 
-private validateMailFields(type: string): void {
+private validateMailFields(type: string, element: HTMLElement): void {
   const errorMessageMailInputs:NodeListOf<Element> = this.moduleWrapper.querySelectorAll(' input[type="email"]');
   // Here
   for (let i = 0; i < errorMessageMailInputs.length; i++) {
-    if (errorMessageMailInputs[i].nextElementSibling.classList.contains(this.domClasses.hideError)) {
+    if (errorMessageMailInputs[i].nextElementSibling.classList.contains(this.domClasses.hideError) && errorMessageMailInputs[i] !== element) {
       errorMessageMailInputs[i].dispatchEvent(new Event('change'));
     }
  }
