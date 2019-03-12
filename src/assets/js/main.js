@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var RegisterContainer = (function () {
     function RegisterContainer() {
         this.name = 'register-container';
@@ -25,7 +23,7 @@ var RegisterContainer = (function () {
     };
     RegisterContainer.prototype.attachInputElementHandler = function () {
         var _this = this;
-        Array(this.inputTextElements).forEach(function (inputText) {
+        this.inputTextElements.forEach(function (inputText) {
             inputText.addEventListener('keyup', function (event) { _this.validateField(event); });
             if (inputText.getAttribute('type') === 'password') {
                 inputText.previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', function (event) {
@@ -67,7 +65,7 @@ var RegisterContainer = (function () {
         var baseValue = element.value;
         var emailFields = this.moduleWrapper.querySelectorAll('input[type="email"]');
         var isEmailEqual = true;
-        Array(emailFields).forEach(function (inputPassword) {
+        emailFields.forEach(function (inputPassword) {
             if (inputPassword.value !== baseValue) {
                 isEmailEqual = false;
             }
@@ -92,5 +90,3 @@ var RegisterContainer = (function () {
     };
     return RegisterContainer;
 }());
-exports.RegisterContainer = RegisterContainer;
-var object = new RegisterContainer();

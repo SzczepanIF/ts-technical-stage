@@ -5,7 +5,8 @@ module.exports = function (config) {
       { pattern: "src/**/*.ts" },
     ],
     preprocessors: {
-      "**/*.ts": ["karma-typescript"]
+      "**/*.ts": ["karma-typescript"],
+      '**/*.pug': ['pug']
     },
     karmaTypescriptConfig: {
       tsconfig: "./tsconfig.json",

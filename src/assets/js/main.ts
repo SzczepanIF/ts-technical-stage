@@ -1,4 +1,4 @@
-export class RegisterContainer {
+class RegisterContainer {
   private name: string = 'register-container'
   private domSelectors;
   private inputTextElements: NodeListOf<Element>;
@@ -29,8 +29,8 @@ export class RegisterContainer {
  }
 
  attachInputElementHandler():void {
-   Array(this.inputTextElements).forEach((inputText:any) => {
-     inputText.addEventListener('keyup', (event: Event) => {this.validateField(event)});
+   this.inputTextElements.forEach((inputText:any) => {
+     inputText.addEventListener('change', (event: Event) => {this.validateField(event)});
 
      if (inputText.getAttribute('type') === 'password') {
        inputText.previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', (event: Event) => {
@@ -86,7 +86,7 @@ export class RegisterContainer {
    let emailFields:NodeListOf<Element> = this.moduleWrapper.querySelectorAll('input[type="email"]');
    let isEmailEqual = true;
 
-   Array(emailFields).forEach((inputPassword:any) => {
+   emailFields.forEach((inputPassword:any) => {
      if (inputPassword.value !== baseValue) {
        isEmailEqual = false;
      }
@@ -116,4 +116,3 @@ export class RegisterContainer {
    return this.moduleWrapper.querySelectorAll('.errors:not(.error-hide)').length === 0;
  }
 }
-var object = new RegisterContainer();

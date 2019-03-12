@@ -11,6 +11,7 @@ describe('RegisterContainer Component', () => {
     document.body.insertAdjacentHTML(
      'afterbegin',
      form);
+
   })
 
   afterEach(function() {
@@ -18,11 +19,22 @@ describe('RegisterContainer Component', () => {
   });
 
   it('should initialize', () => {
-    window.onload = () => {
-    //  let registerContainer: RegisterContainer = new RegisterContainer();
+    new RegisterContainer();
 
-     expect(2).toEqual(2);
-    }
-  });
+   expect(document.querySelectorAll('[name="register_form"]').length).not.toEqual(0);
+ });
+
+ it('should show error when input does not match pattern', () => {
+   new RegisterContainer();
+
+   let inputElement = <HTMLInputElement> document.querySelector('[name="verify_email"]');
+   inputElement.value = 'ss';
+
+   inputElement.dispatchEvent(new Event('change'));
+
+   let visibleErrors = document.querySelectorAll('.errors:not(.errors__hide)');
+
+  expect(visibleErrors.length).not.toEqual(0);
+});
 
 });
