@@ -1,6 +1,7 @@
 class RegisterContainer {
   private name: string = 'register-container';
   private domSelectors;
+  private domClasses;
   private inputTextElements: NodeListOf<Element>;
   private dropdownElements: NodeListOf<Element>;
   private submitButton: HTMLElement;
@@ -13,6 +14,11 @@ class RegisterContainer {
      moduleName: '[data-init="' + this.name + '"]',
      inputText: '[data-init="inputText"]',
      dropdownField: '[data-init="dropdownField"]'
+   };
+   this.domClasses = {
+     hideError: 'errors__hide',
+     errorMessage: 'errors__message',
+     errorsWrapper: 'errors'
    };
    this.initUI();
    this.addEventListeners();
@@ -32,6 +38,7 @@ class RegisterContainer {
 
  private attachInputElementHandler(): void {
    this.inputTextElements.forEach((inputText: HTMLInputElement) => {
+     inputText.addEventListener('keyUp', ( event: Event ) => { this.validateField( event ); });
      inputText.addEventListener('change', ( event: Event ) => { this.validateField( event ); });
 
      if (inputText.getAttribute('type') === 'password') {
@@ -67,24 +74,24 @@ class RegisterContainer {
      this.submitButton.removeAttribute('disabled');
    }
 
-   isFieldValid ? element.nextElementSibling.classList.add('errors__hide') : element.nextElementSibling.classList.remove('errors__hide');
+   isFieldValid ? element.nextElementSibling.classList.add(this.domClasses.hideError) : element.nextElementSibling.classList.remove(this.domClasses.hideError);
  }
 
  private showErrorMessage(type: string, element: HTMLElement): void {
-   const errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
+   const errorMessage = element.nextElementSibling.querySelector('.' + this.domClasses.errorMessage + '-' + type);
    if (element.nextElementSibling && errorMessage) {
-    element.nextElementSibling.classList.remove('errors__hide');
-    errorMessage.classList.remove('errors__hide');
+    element.nextElementSibling.classList.remove(this.domClasses.hideError);
+    errorMessage.classList.remove(this.domClasses.hideError);
    }
 
    this.submitButton.setAttribute('disabled', 'disabled');
  }
 
  private hideErrorMessage(type: string, element: HTMLElement): void {
-   const errorMessage = element.nextElementSibling.querySelector('.errors__message-' + type);
+   const errorMessage = element.nextElementSibling.querySelector('.' +  this.domClasses.errorMessage + '-' + type);
 
    if (element.nextElementSibling && errorMessage) {
-     errorMessage.classList.add('errors__hide');
+     errorMessage.classList.add(this.domClasses.hideError);
    }
   }
 
@@ -133,6 +140,6 @@ class RegisterContainer {
  }
 
  private isFormHavingErrors(): boolean {
-   return this.moduleWrapper.querySelectorAll('.errors:not(.error-hide)').length === 0;
+   return this.moduleWrapper.querySelectorAll('.' + this.domClasses.errorsWrapper + ':not(.' + this.domClasses.hideError + ')').length === 0;
  }
 }
