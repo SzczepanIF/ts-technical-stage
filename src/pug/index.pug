@@ -6,7 +6,33 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(href='assets/img/favicons/favicon.ico', rel='shortcut icon')
     link(href='./assets/css/main.css', rel='stylesheet')
-  body
-    <a href="/register.html">Register</a>
+  body(class="main-page")
+    header
+      h1 Tigerspike Tech Task
+      h2 Author: Marcin Szczepanczyk
+    main
+      section
+        p Technologies used:
+        p Typescript, Gulp, SASS, PUG, tslint karma, jasmine, npm, es5/6 shims
+
+      section
+        p npm tasks (most running via gulp):
+        dl
+          dt npm run start
+          dd putting server live and opening browser (via browsersync)
+          dt npm run test
+          dd starts unit tests via karma runner
+          dt npm run lint
+          dd runs typescript linter over ts files
+          dt npm run build
+          dd creating new build copied to the `dist` folder
+          dt npm run no-pug
+          dd updating pug files from no-pug directory (so. basically the partials, which are not separate compiled template files)
+      section
+        h3 Pages:
+        nav
+          ul
+            li
+              a(href='/register.html' title='Link to register page') Register
     <script> var exports = {}; </script>
     script(src='./assets/js/main.js', type='text/javascript')

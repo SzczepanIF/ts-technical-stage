@@ -13,12 +13,18 @@ $c-tooltip-width: 150px
   width: 100%
   margin: $c-margin
   position: relative
+  padding: 0 $c-padding
+  clear: both
 
   &__field,
   &__label
     display: block
     width: 100%
     padding: $c-padding
+
+  &__field
+    position: relative
+    z-index: 4
 
   &__label
     font-size: $c-label-font-size
@@ -32,7 +38,6 @@ $c-tooltip-width: 150px
     top: 0
     min-width: $c-password-wrapper-width
     right: 0
-    z-index: 4
     background: $white
     font-size: $c-field-font-size
     padding: $c-padding
@@ -49,6 +54,9 @@ $c-tooltip-width: 150px
     padding: $c-padding 2*$c-padding
     font-size: $c-checkbox-wrapper-font-size
     z-index: 5
+
+    @media only screen and (min-width: $breakpoint-md)
+      right: 5px
 
     input[type="checkbox"]
         margin-right: $c-padding

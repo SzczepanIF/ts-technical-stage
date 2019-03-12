@@ -16,7 +16,7 @@ var RegisterContainer = (function () {
             errorsWrapper: 'errors',
             tooltip: 'form-input__tooltip'
         };
-        this.isIE8 = navigator.appVersion.indexOf("MSIE 8") > 0;
+        this.isIE8 = navigator.appVersion.indexOf('MSIE 8') > 0;
         this.initUI();
         this.addEventListeners();
     }
@@ -52,7 +52,6 @@ var RegisterContainer = (function () {
         for (var i = 0; i < this.inputTextElements.length; i++) {
             _loop_1(i);
         }
-        ;
     };
     RegisterContainer.prototype.showPasswordInIE8 = function (inputPassword) {
         var tooltipElement = inputPassword.parentNode.querySelector('.' + this.domClasses.tooltip);
@@ -70,8 +69,8 @@ var RegisterContainer = (function () {
             isFieldValid = isPatternValid ? isFieldValid : false;
         }
         if (element.getAttribute('type') === 'password') {
-            var parentNode = element.parentNode;
-            parentNode.querySelector('.' + this.domClasses.tooltip).innerHTML = '<strong>Current password</strong>: ' + element.value;
+            var inputPasswordWrapper = element.parentNode;
+            inputPasswordWrapper.querySelector('.' + this.domClasses.tooltip).innerHTML = '<strong>Current password</strong>: ' + element.value;
         }
         if (element.getAttribute('type') === 'email') {
             var isEmailEqual = this.checkEqualityOfEmails(element) && isFieldValid;
@@ -91,9 +90,24 @@ var RegisterContainer = (function () {
         this.submitButton.setAttribute('disabled', 'disabled');
     };
     RegisterContainer.prototype.hideErrorMessage = function (type, element) {
-        var errorMessage = element.nextElementSibling.querySelector('.' + this.domClasses.errorMessage + '-' + type);
+        var errorMessage;
+        if (type === 'not-equal') {
+            errorMessage = document.querySelectorAll('.' + this.domClasses.errorMessage + '-' + type);
+        }
+        else {
+            errorMessage = Array(element.nextElementSibling.querySelector('.' + this.domClasses.errorMessage + '-' + type));
+        }
         if (element.nextElementSibling && errorMessage) {
-            errorMessage.classList.add(this.domClasses.hideError);
+            for (var i = 0; i < errorMessage.length; i++) {
+                errorMessage[i].classList.add(this.domClasses.hideError);
+                this.validateMailField(errorMessage[i]);
+            }
+        }
+    };
+    RegisterContainer.prototype.validateMailField = function (errorMessage) {
+        var errorMessageWrapper = errorMessage.parentNode;
+        if (errorMessageWrapper.querySelectorAll(this.domClasses.hideError).length === 0) {
+            errorMessageWrapper.classList.remove(this.domClasses.hideError);
         }
     };
     RegisterContainer.prototype.checkFieldPattern = function (element) {
@@ -115,7 +129,7 @@ var RegisterContainer = (function () {
         return isEmailEqual;
     };
     RegisterContainer.prototype.isFieldEmpty = function (field) {
-        var isEmpty = field.getAttribute('required') && field.value.length === 0;
+        var isEmpty = field.getAttribute('required') === '' && field.value.length === 0;
         isEmpty ? this.showErrorMessage('required', field) : this.hideErrorMessage('required', field);
         return isEmpty;
     };
@@ -125,11 +139,22 @@ var RegisterContainer = (function () {
         if (this.isFormValid) {
             this.formSubmit();
         }
+        else {
+            this.scrollIntoFirstError();
+        }
+    };
+    RegisterContainer.prototype.scrollIntoFirstError = function () {
+        var firstErrorInput = this.moduleWrapper.querySelector('.' + this.domClasses.errorsWrapper + ':not(.' + this.domClasses.hideError + ')').previousElementSibling;
+        firstErrorInput.scrollIntoView();
+        firstErrorInput.focus();
     };
     RegisterContainer.prototype.formSubmit = function () {
         this.moduleWrapper.submit();
     };
     RegisterContainer.prototype.isFormHavingErrors = function () {
+        for (var i = 0; i < this.inputTextElements.length; i++) {
+            this.inputTextElements[i].dispatchEvent(new Event('change'));
+        }
         return this.moduleWrapper.querySelectorAll('.' + this.domClasses.errorsWrapper + ':not(.' + this.domClasses.hideError + ')').length === 0;
     };
     return RegisterContainer;

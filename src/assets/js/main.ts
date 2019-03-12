@@ -112,12 +112,28 @@ class RegisterContainer {
  }
 
  private hideErrorMessage(type: string, element: HTMLElement): void {
-   const errorMessage = element.nextElementSibling.querySelector('.' +  this.domClasses.errorMessage + '-' + type);
+   let errorMessage;
+   if (type === 'not-equal') {
+     errorMessage = document.querySelectorAll('.' +  this.domClasses.errorMessage + '-' + type);
+   } else {
+     errorMessage = Array(element.nextElementSibling.querySelector('.' +  this.domClasses.errorMessage + '-' + type));
+   }
 
    if (element.nextElementSibling && errorMessage) {
-     errorMessage.classList.add(this.domClasses.hideError);
+     for (let i = 0; i < errorMessage.length; i++) {
+       errorMessage[i].classList.add(this.domClasses.hideError);
+       this.validateMailField(errorMessage[i]);
+     }
    }
   }
+
+private validateMailField(errorMessage: HTMLElement): void {
+  const errorMessageWrapper: HTMLElement = <HTMLElement> errorMessage.parentNode;
+  // TODO REFACTOR THIS
+  if (errorMessageWrapper.querySelectorAll(this.domClasses.hideError).length === 0) {
+    errorMessageWrapper.classList.remove(this.domClasses.hideError);
+  }
+}
 
  private checkFieldPattern(element: HTMLInputElement): boolean {
    const pattern = new RegExp(element.getAttribute('pattern'));
@@ -127,7 +143,7 @@ class RegisterContainer {
    return isRegExpValid;
  }
 
- private checkEqualityOfEmails(element: HTMLInputElement) {
+ private checkEqualityOfEmails(element: HTMLInputElement): boolean {
    const baseValue = element.value;
    const emailFields: NodeListOf<Element> = this.moduleWrapper.querySelectorAll('input[type="email"]');
    let isEmailEqual = true;
@@ -144,7 +160,7 @@ class RegisterContainer {
  }
 
  private isFieldEmpty(field: HTMLInputElement): boolean {
-   const isEmpty = field.getAttribute('required') && field.value.length === 0;
+   const isEmpty = field.getAttribute('required') === '' && field.value.length === 0;
 
    isEmpty ? this.showErrorMessage('required', field) : this.hideErrorMessage('required', field);
    return isEmpty;
@@ -156,7 +172,15 @@ class RegisterContainer {
 
     if (this.isFormValid) {
       this.formSubmit();
+    } else {
+      this.scrollIntoFirstError();
     }
+ }
+
+ private scrollIntoFirstError(): void {
+   const firstErrorInput: HTMLInputElement = <HTMLInputElement> this.moduleWrapper.querySelector('.' + this.domClasses.errorsWrapper + ':not(.' + this.domClasses.hideError + ')').previousElementSibling;
+   firstErrorInput.scrollIntoView();
+   firstErrorInput.focus();
  }
 
  private formSubmit(): void {
@@ -164,6 +188,10 @@ class RegisterContainer {
  }
 
  private isFormHavingErrors(): boolean {
+   for (let i = 0; i < this.inputTextElements.length; i++) {
+     this.inputTextElements[i].dispatchEvent(new Event('change'));
+  }
+
    return this.moduleWrapper.querySelectorAll('.' + this.domClasses.errorsWrapper + ':not(.' + this.domClasses.hideError + ')').length === 0;
  }
 }
