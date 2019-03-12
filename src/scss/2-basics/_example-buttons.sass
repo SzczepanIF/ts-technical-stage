@@ -30,3 +30,14 @@ input[type="button"]
     border-color: $black
     background-color: $white
     outline: 0
+
+  &[disabled]
+    opacity: 0.5
+
+    &:hover,
+    &:active,
+    &:focus
+      border: 1px solid #bbb
+      background-color: $black
+      color: white
+      cursor: not-allowed

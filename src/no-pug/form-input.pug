@@ -1,4 +1,6 @@
 div(class='form-input' data-init='inputText')
+  if inputField.inputType === 'password'
+    div(class="form-input__tooltip tooltip__hide")
   label(class='form-input__label' for=inputField.inputName) #{inputField.inputLabel}
     if inputField.inputRequired
       span *

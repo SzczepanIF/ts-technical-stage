@@ -1,22 +1,35 @@
 {
     "compilerOptions": {
         "declaration": true,
-        "noImplicitAny": true,
-        "target": "es5",
         "noImplicitAny": false,
+        "target": "es3",
         "removeComments": true,
+        "noLib": false,
         "sourceMap": true,
+        "emitDecoratorMetadata": true,
         "outDir": "dist",
         "module": "commonjs",
+        "sourceMap": true,
+        "listFiles": true,
         "experimentalDecorators": true,
         "moduleResolution": "node",
         "types": [
           "jasmine"
         ],
         "lib": [
-            "es6",
-            "dom",
-            "dom.iterable"
+          "es6",
+          "dom.iterable",
+          "dom",
+          "es5",
+          "es2015.core",
+          "es2015.promise",
+          "es2015.collection",
+          "es2016.array.include",
+          "es2017.string",
+          "es2017.object",
+          "es2018.promise",
+          "es2015.reflect",
+          "es2017.typedarrays"
         ],
         "typeRoots": [
           "../node_modules/@types"

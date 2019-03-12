@@ -3,6 +3,7 @@ var RegisterContainer = (function () {
         this.name = 'register-container';
         this.isFormValid = false;
         this.isFormPristine = true;
+        this.isIE8 = false;
         this.domSelectors = {
             moduleName: '[data-init="' + this.name + '"]',
             inputText: '[data-init="inputText"]',
@@ -10,15 +11,18 @@ var RegisterContainer = (function () {
         };
         this.domClasses = {
             hideError: 'errors__hide',
+            hideTooltip: 'tooltip__hide',
             errorMessage: 'errors__message',
-            errorsWrapper: 'errors'
+            errorsWrapper: 'errors',
+            tooltip: 'form-input__tooltip'
         };
+        this.isIE8 = navigator.appVersion.indexOf("MSIE 8") > 0;
         this.initUI();
         this.addEventListeners();
     }
     RegisterContainer.prototype.initUI = function () {
         this.moduleWrapper = document.querySelector(this.domSelectors.moduleName);
-        this.inputTextElements = document.querySelectorAll(this.domSelectors.inputText + ' input');
+        this.inputTextElements = document.querySelectorAll(this.domSelectors.inputText + ' .form-input__field');
         this.dropdownElements = document.querySelectorAll(this.domSelectors.dropdownField);
         this.submitButton = document.querySelector('button[type="submit"]');
     };
@@ -29,15 +33,32 @@ var RegisterContainer = (function () {
     };
     RegisterContainer.prototype.attachInputElementHandler = function () {
         var _this = this;
-        this.inputTextElements.forEach(function (inputText) {
-            inputText.addEventListener('keyup change', function (event) { _this.validateField(event); });
-            if (inputText.getAttribute('type') === 'password') {
-                inputText.previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', function (event) {
+        var _loop_1 = function (i) {
+            this_1.inputTextElements[i].addEventListener('keyup', function (event) { _this.validateField(event); });
+            this_1.inputTextElements[i].addEventListener('change', function (event) { _this.validateField(event); });
+            if (this_1.inputTextElements[i].getAttribute('type') === 'password') {
+                this_1.inputTextElements[i].previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', function (event) {
                     var checkboxElement = event.currentTarget;
-                    inputText.setAttribute('type', checkboxElement.checked ? 'text' : 'password');
+                    if (!_this.isIE8) {
+                        _this.inputTextElements[i].setAttribute('type', checkboxElement.checked ? 'text' : 'password');
+                    }
+                    else {
+                        _this.showPasswordInIE8(_this.inputTextElements[i]);
+                    }
                 });
             }
-        });
+        };
+        var this_1 = this;
+        for (var i = 0; i < this.inputTextElements.length; i++) {
+            _loop_1(i);
+        }
+        ;
+    };
+    RegisterContainer.prototype.showPasswordInIE8 = function (inputPassword) {
+        var tooltipElement = inputPassword.parentNode.querySelector('.' + this.domClasses.tooltip);
+        tooltipElement.classList.contains(this.domClasses.hideTooltip) ?
+            tooltipElement.classList.remove(this.domClasses.hideTooltip) :
+            tooltipElement.classList.add(this.domClasses.hideTooltip);
     };
     RegisterContainer.prototype.validateField = function (event) {
         var isFieldValid = true;
@@ -47,6 +68,10 @@ var RegisterContainer = (function () {
         if (element.getAttribute('pattern')) {
             var isPatternValid = this.checkFieldPattern(element);
             isFieldValid = isPatternValid ? isFieldValid : false;
+        }
+        if (element.getAttribute('type') === 'password') {
+            var parentNode = element.parentNode;
+            parentNode.querySelector('.' + this.domClasses.tooltip).innerHTML = '<strong>Current password</strong>: ' + element.value;
         }
         if (element.getAttribute('type') === 'email') {
             var isEmailEqual = this.checkEqualityOfEmails(element) && isFieldValid;
