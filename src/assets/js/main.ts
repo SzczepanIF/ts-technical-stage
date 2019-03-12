@@ -112,27 +112,25 @@ class RegisterContainer {
  }
 
  private hideErrorMessage(type: string, element: HTMLElement): void {
-   let errorMessage;
-   if (type === 'not-equal') {
-     errorMessage = document.querySelectorAll('.' +  this.domClasses.errorMessage + '-' + type);
-   } else {
-     errorMessage = Array(element.nextElementSibling.querySelector('.' +  this.domClasses.errorMessage + '-' + type));
-   }
 
+   let errorMessage = element.nextElementSibling.querySelector('.' +  this.domClasses.errorMessage + '-' + type);
    if (element.nextElementSibling && errorMessage) {
-     for (let i = 0; i < errorMessage.length; i++) {
-       errorMessage[i].classList.add(this.domClasses.hideError);
-       this.validateMailField(errorMessage[i]);
-     }
+     errorMessage.classList.add(this.domClasses.hideError);
    }
-  }
 
-private validateMailField(errorMessage: HTMLElement): void {
-  const errorMessageWrapper: HTMLElement = <HTMLElement> errorMessage.parentNode;
-  // TODO REFACTOR THIS
-  if (errorMessageWrapper.querySelectorAll(this.domClasses.hideError).length === 0) {
-    errorMessageWrapper.classList.remove(this.domClasses.hideError);
-  }
+   if (type === 'not-equal') {
+     this.validateMailFields(type);
+   }
+ }
+
+private validateMailFields(type: string): void {
+  const errorMessageMailInputs:NodeListOf<Element> = this.moduleWrapper.querySelectorAll(' input[type="email"]');
+  // Here
+  for (let i = 0; i < errorMessageMailInputs.length; i++) {
+    if (errorMessageMailInputs[i].nextElementSibling.classList.contains(this.domClasses.hideError)) {
+      errorMessageMailInputs[i].dispatchEvent(new Event('change'));
+    }
+ }
 }
 
  private checkFieldPattern(element: HTMLInputElement): boolean {

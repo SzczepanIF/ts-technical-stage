@@ -90,24 +90,20 @@ var RegisterContainer = (function () {
         this.submitButton.setAttribute('disabled', 'disabled');
     };
     RegisterContainer.prototype.hideErrorMessage = function (type, element) {
-        var errorMessage;
-        if (type === 'not-equal') {
-            errorMessage = document.querySelectorAll('.' + this.domClasses.errorMessage + '-' + type);
-        }
-        else {
-            errorMessage = Array(element.nextElementSibling.querySelector('.' + this.domClasses.errorMessage + '-' + type));
-        }
+        var errorMessage = element.nextElementSibling.querySelector('.' + this.domClasses.errorMessage + '-' + type);
         if (element.nextElementSibling && errorMessage) {
-            for (var i = 0; i < errorMessage.length; i++) {
-                errorMessage[i].classList.add(this.domClasses.hideError);
-                this.validateMailField(errorMessage[i]);
-            }
+            errorMessage.classList.add(this.domClasses.hideError);
+        }
+        if (type === 'not-equal') {
+            this.validateMailFields(type);
         }
     };
-    RegisterContainer.prototype.validateMailField = function (errorMessage) {
-        var errorMessageWrapper = errorMessage.parentNode;
-        if (errorMessageWrapper.querySelectorAll(this.domClasses.hideError).length === 0) {
-            errorMessageWrapper.classList.remove(this.domClasses.hideError);
+    RegisterContainer.prototype.validateMailFields = function (type) {
+        var errorMessageMailInputs = this.moduleWrapper.querySelectorAll(' input[type="email"]');
+        for (var i = 0; i < errorMessageMailInputs.length; i++) {
+            if (errorMessageMailInputs[i].nextElementSibling.classList.contains(this.domClasses.hideError)) {
+                errorMessageMailInputs[i].dispatchEvent(new Event('change'));
+            }
         }
     };
     RegisterContainer.prototype.checkFieldPattern = function (element) {
