@@ -24,7 +24,7 @@ var RegisterContainer = (function () {
     RegisterContainer.prototype.attachInputElementHandler = function () {
         var _this = this;
         this.inputTextElements.forEach(function (inputText) {
-            inputText.addEventListener('keyup', function (event) { _this.validateField(event); });
+            inputText.addEventListener('change', function (event) { _this.validateField(event); });
             if (inputText.getAttribute('type') === 'password') {
                 inputText.previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', function (event) {
                     var checkboxElement = event.currentTarget;
