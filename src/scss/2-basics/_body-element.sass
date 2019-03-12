@@ -28,8 +28,28 @@ form
   color: $black
   overflow: hidden
 
+.register-form
+  width: 100%
+
+  @media only screen and (min-width: $breakpoint-md)
+    float: left
+    width: 70%
+
+.login-section
+  width: 100%
+  text-align: center
+  height: 100%
+  padding: 15px 0
+
+  @media only screen and (min-width: $breakpoint-md)
+    float: left
+    width: 30%
+    padding-top: 100px
 h1
   @include mainHeading()
 
 h2
   @include subHeading()
+
+.main-page
+  padding: 40px 20px
