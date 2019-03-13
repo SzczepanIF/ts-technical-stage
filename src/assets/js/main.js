@@ -34,8 +34,9 @@ var RegisterContainer = (function () {
     RegisterContainer.prototype.attachInputElementHandler = function () {
         var _this = this;
         var _loop_1 = function (i) {
-            this_1.inputTextElements[i].addEventListener('keyup', function (event) { _this.validateField(event); });
-            this_1.inputTextElements[i].addEventListener('change', function (event) { _this.validateField(event); });
+            this_1.inputTextElements[i].addEventListener('keyup', function (event) { _this.validateField(event.currentTarget); });
+            this_1.inputTextElements[i].addEventListener('change', function (event) { _this.validateField(event.currentTarget); });
+            this_1.inputTextElements[i].addEventListener('focus', function (event) { _this.validateField(event.currentTarget); });
             if (this_1.inputTextElements[i].getAttribute('type') === 'password') {
                 this_1.inputTextElements[i].previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', function (event) {
                     var checkboxElement = event.currentTarget;
@@ -59,9 +60,8 @@ var RegisterContainer = (function () {
             tooltipElement.classList.remove(this.domClasses.hideTooltip) :
             tooltipElement.classList.add(this.domClasses.hideTooltip);
     };
-    RegisterContainer.prototype.validateField = function (event) {
+    RegisterContainer.prototype.validateField = function (element) {
         var isFieldValid = true;
-        var element = event.currentTarget;
         this.isFormPristine = false;
         isFieldValid = !this.isFieldEmpty(element);
         if (element.getAttribute('pattern')) {
@@ -94,17 +94,6 @@ var RegisterContainer = (function () {
         if (element.nextElementSibling && errorMessage) {
             errorMessage.classList.add(this.domClasses.hideError);
         }
-        if (type === 'not-equal') {
-            this.validateMailFields(type, element);
-        }
-    };
-    RegisterContainer.prototype.validateMailFields = function (type, element) {
-        var errorMessageMailInputs = this.moduleWrapper.querySelectorAll(' input[type="email"]');
-        for (var i = 0; i < errorMessageMailInputs.length; i++) {
-            if (errorMessageMailInputs[i].nextElementSibling.classList.contains(this.domClasses.hideError) && errorMessageMailInputs[i] !== element) {
-                errorMessageMailInputs[i].dispatchEvent(new Event('change'));
-            }
-        }
     };
     RegisterContainer.prototype.checkFieldPattern = function (element) {
         var pattern = new RegExp(element.getAttribute('pattern'));
@@ -116,11 +105,11 @@ var RegisterContainer = (function () {
         var baseValue = element.value;
         var emailFields = this.moduleWrapper.querySelectorAll('input[type="email"]');
         var isEmailEqual = true;
-        emailFields.forEach(function (inputPassword) {
-            if (inputPassword.value !== baseValue) {
+        for (var i = 0; i < emailFields.length; i++) {
+            if (emailFields[i].value !== baseValue) {
                 isEmailEqual = false;
             }
-        });
+        }
         isEmailEqual ? this.hideErrorMessage('not-equal', element) : this.showErrorMessage('not-equal', element);
         return isEmailEqual;
     };
@@ -149,9 +138,9 @@ var RegisterContainer = (function () {
     };
     RegisterContainer.prototype.isFormHavingErrors = function () {
         for (var i = 0; i < this.inputTextElements.length; i++) {
-            this.inputTextElements[i].dispatchEvent(new Event('change'));
+            this.validateField(this.inputTextElements[i]);
         }
-        return this.moduleWrapper.querySelectorAll('.' + this.domClasses.errorsWrapper + ':not(.' + this.domClasses.hideError + ')').length === 0;
+        return this.moduleWrapper.querySelectorAll('.' + this.domClasses.errorsWrapper + '.' + this.domClasses.hideError).length === this.inputTextElements.length;
     };
     return RegisterContainer;
 }());

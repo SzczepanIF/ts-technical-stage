@@ -45,8 +45,9 @@ class RegisterContainer {
 
  private attachInputElementHandler(): void {
    for (let i = 0; i < this.inputTextElements.length; i++) {
-     this.inputTextElements[i].addEventListener('keyup', ( event: Event ) => { this.validateField( event ); });
-     this.inputTextElements[i].addEventListener('change', ( event: Event ) => { this.validateField( event ); });
+     this.inputTextElements[i].addEventListener('keyup', ( event: Event ) => { this.validateField( event.currentTarget ); });
+     this.inputTextElements[i].addEventListener('change', ( event: Event ) => { this.validateField( event.currentTarget ); });
+     this.inputTextElements[i].addEventListener('focus', ( event: Event ) => { this.validateField( event.currentTarget ); });
 
      if (this.inputTextElements[i].getAttribute('type') === 'password') {
        this.inputTextElements[i].previousElementSibling.querySelector('input[type="checkbox"]').addEventListener('click', (event: Event) => {
@@ -69,9 +70,8 @@ class RegisterContainer {
     tooltipElement.classList.add(this.domClasses.hideTooltip);
  }
 
- private validateField(event: Event): void {
+ private validateField(element): void {
    let isFieldValid = true;
-   const element: HTMLInputElement = <HTMLInputElement> event.currentTarget;
    this.isFormPristine = false;
 
    isFieldValid = !this.isFieldEmpty(element);
@@ -112,27 +112,12 @@ class RegisterContainer {
  }
 
  private hideErrorMessage(type: string, element: HTMLElement): void {
+   const errorMessage = element.nextElementSibling.querySelector('.' +  this.domClasses.errorMessage + '-' + type);
 
-   let errorMessage = element.nextElementSibling.querySelector('.' +  this.domClasses.errorMessage + '-' + type);
    if (element.nextElementSibling && errorMessage) {
      errorMessage.classList.add(this.domClasses.hideError);
    }
-
-   if (type === 'not-equal') {
-     this.validateMailFields(type, element);
-   }
  }
-
-private validateMailFields(type: string, element: HTMLElement): void {
-  const errorMessageMailInputs:NodeListOf<Element> = this.moduleWrapper.querySelectorAll(' input[type="email"]');
-  // Here
-  for (let i = 0; i < errorMessageMailInputs.length; i++) {
-    if (errorMessageMailInputs[i].nextElementSibling.classList.contains(this.domClasses.hideError) && errorMessageMailInputs[i] !== element) {
-      errorMessageMailInputs[i].dispatchEvent(new Event('change'));
-    }
- }
-}
-
  private checkFieldPattern(element: HTMLInputElement): boolean {
    const pattern = new RegExp(element.getAttribute('pattern'));
    const isRegExpValid = pattern.test(element.value);
@@ -143,14 +128,13 @@ private validateMailFields(type: string, element: HTMLElement): void {
 
  private checkEqualityOfEmails(element: HTMLInputElement): boolean {
    const baseValue = element.value;
-   const emailFields: NodeListOf<Element> = this.moduleWrapper.querySelectorAll('input[type="email"]');
+   const emailFields: NodeListOf<HTMLInputElement> = this.moduleWrapper.querySelectorAll('input[type="email"]');
    let isEmailEqual = true;
-
-   emailFields.forEach((inputPassword: HTMLInputElement) => {
-     if (inputPassword.value !== baseValue) {
+   for (let i = 0; i < emailFields.length; i++) {
+     if (emailFields[i].value !== baseValue) {
        isEmailEqual = false;
      }
-   });
+   }
 
   isEmailEqual ? this.hideErrorMessage('not-equal', element) : this.showErrorMessage('not-equal', element);
 
@@ -187,9 +171,8 @@ private validateMailFields(type: string, element: HTMLElement): void {
 
  private isFormHavingErrors(): boolean {
    for (let i = 0; i < this.inputTextElements.length; i++) {
-     this.inputTextElements[i].dispatchEvent(new Event('change'));
-  }
-
-   return this.moduleWrapper.querySelectorAll('.' + this.domClasses.errorsWrapper + ':not(.' + this.domClasses.hideError + ')').length === 0;
+      this.validateField(this.inputTextElements[i]);
+    }
+  return this.moduleWrapper.querySelectorAll('.' + this.domClasses.errorsWrapper + '.' + this.domClasses.hideError).length === this.inputTextElements.length;
  }
 }
